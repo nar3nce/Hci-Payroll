@@ -1,0 +1,98 @@
+<!-- delete -->
+<div class="modal fade" id="del<?php echo $row['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Delete</h4>
+      </div>
+      <div class="modal-body">
+
+        Confirm delete? 
+
+      </div>
+      <div class="modal-footer">
+       <form id="form1" name="form2" method="post" action="deduction_script.php?id=<?php echo $row['id'];?>">
+        <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+        <input type="submit" name="delete" value="Delete" class="btn btn-warning" required>;
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- edit -->
+<div class="modal fade" id="modal<?php echo $row['emp_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Upadate Salary</h4>
+      </div>
+      <div class="modal-body">
+
+       <!-- bodyyyyyyyyyyyy -->
+       
+       <form id="form1" name="form1" method="post" action="salary_script.php?id=<?php echo $row['emp_id'];?>">
+        <div class="form-group">
+         <label for="exampleInputEmail1">Update Deductions</label>
+         <select id="price_input" multiple class="form-control">
+          <option value="1" data-price="10">Coffee</option>
+          <option value="2" data-price="10">Chips</option>
+         <?php
+          $s = "SELECT * FROM deductions";
+          $q = $conn->query($s);
+          while($prow = $q->fetch_assoc()){
+            echo "
+            <option value='".$prow['id']."' data-price='".$prow['amount']."'>".$prow['deduction_name']."</option>
+            ";
+          }
+          ?>
+        </select>
+        <select id="quantity_input" type="hidden" class="modal fade">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+
+      </div>
+      <div class="form-group">
+       <label for="exampleInputEmail1">Total Deductions</label>
+       <input id="opt_price" type="text" name="desc"  value="" class="form-control"placeholder="asd'"  required>
+     </div>
+     <div class="form-group">
+       <label for="exampleInputPassword1">Net Pay</label>
+       <input type="text" name="amount" value="" class="form-control" id="exampleInputPassword1" placeholder="'.$rate.'" required>
+     </div>
+     <input type="submit" name="update" value="Save Changes" class="btn btn-primary">
+   </form>
+   
+   <!-- bodyyyyyyyyyyyy///// -->
+ </div>
+ <div class="modal-footer">
+  <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- java script to display total using id="#sam_ple" -->
+<script src="../js/jquery.mini.js"></script>
+<script language="javascript">
+  $(document).ready(function() {
+    $('#price_input').on('change', function() {
+      $('#opt_price').val(valueFUnction());
+    });
+  });
+
+  function valueFUnction(quan) {
+    var $selection = $('#price_input').find(':selected');
+    var quantity = $('#quantity_input').val();
+    var total = 0;
+    $selection.each(function() {
+      total += $(this).data('price') * quantity;
+    })
+    return total;
+  }
+</script>
